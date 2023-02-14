@@ -38,37 +38,31 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    morse = "";
-res_text = '';
-k = 0;
-for (let i = 0; i < expr.length; i++) {
-      if (expr[i] !== ' ') {
-for (let code in MORSE_TABLE) {
-  if (expr[i].toLowerCase() === MORSE_TABLE[code]) {
-
-        for (let j = 0; j < code.length; j++) {
-      if (code[j] === '.') {
-        res_text = res_text + '10'; k = k + 2;
-      } else {
-        if (code[j] === '-') {
-        res_text = res_text + '11'; k = k + 2;
-      } }
-          }
-            if (k !== 10) {
-          for (let h = 0; h < 10 - k; h++) {
-            res_text = '0' + res_text;
-        }       
+let abc = "";
+let morse = "";
+let res_text = '';
+let k = 0;
+for (let i = 0; i < expr.length; i += 10) {
+  abc = expr.substr(i, 10);
+  k = 0; morse = "";
+  if (abc !== '**********') {
+  for (let j = 0; j < abc.length; j += 2) {
+    if (abc.substr(j, 2) === "11") {
+      morse = morse + '-';
     }
-    k = 0;
-    morse = morse + res_text;
-    } 
+    if (abc.substr(j, 2) === "10") {
+      morse = morse + '.';
+    }
+  }
+  } else {
+    res_text = res_text + " ";
+  }
+  for (let code in MORSE_TABLE) {
+    if (code === morse)
+    res_text = res_text + MORSE_TABLE[code];  
   }
 }
-  else { morse = morse + '**********'; }
-    console.log(res_text);
-  res_text = '';
-}
-  return morse; 
+return res_text;
     // write your solution here
 }
 
